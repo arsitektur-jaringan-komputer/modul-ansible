@@ -15,9 +15,11 @@ Berikut adalah Topologi yang kita gunakan pada materi kali ini:
 
 ![Topologi](assets/topology.png)
 
-Pembuatan topologi bersifat opsional, tetapi tetap **DISARANKAN** agar dapat mengikuti dan memahami materi dengan baik.
+- Semua Node menggunakan OS Ubuntu **20.04** atau **22.04**
 
-Cara pembuatan VM **DIBEBASKAN**, baik secara local (vmware, virtual box, wsl, dll) maupun cloud (aws, azure, digital ocean, dll).
+- Pembuatan topologi bersifat opsional, tetapi tetap **DISARANKAN** agar dapat mengikuti dan memahami materi dengan baik.
+
+- Cara pembuatan VM **DIBEBASKAN**, baik secara local (vmware, virtual box, wsl, dll) maupun cloud (aws, azure, digital ocean, dll).
 
 ### Berikut adalah beberapa referensi untuk pembuatan vm pada tiap-tiap platform
 Azure:
