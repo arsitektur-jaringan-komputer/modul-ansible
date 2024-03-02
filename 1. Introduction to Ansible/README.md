@@ -6,11 +6,41 @@
 
 ## Table of Contents
 
+## Table of Contents
+
 1. [Introduction](#introduction)
-2. [Instalation](#instalation)
-3. [Inventory](#inventory)
-4. [Config File](#config)
-4. [Ad Hoc](#adhoc)
+2. [Other Tools Comparison](#other-tools-comparison)
+3. [Installation](#installation)
+4. [Inventory](#inventory)
+   - [File Format](#file-format)
+   - [Host Determination](#host-determination)
+   - [Host Groups](#host-groups)
+   - [Variables](#variables)
+   - [Dynamic Extensions](#dynamic-extensions)
+   - [Pattern Matching](#pattern-matching)
+   - [Examples](#examples)
+5. [Configuration File](#configuration-file)
+   - [File Name and Location](#file-name-and-location)
+   - [File Structure](#file-structure)
+   - [Global Settings](#global-settings)
+   - [Module Settings](#module-settings)
+   - [Connection Settings](#connection-settings)
+   - [Execution Settings](#execution-settings)
+   - [Include Configuration](#include-configuration)
+   - [Security](#security)
+   - [Documentation](#documentation)
+   - [Example](#example)
+6. [Common Ad Hoc](#common-ad-hoc)
+   - [Ping Hosts](#ping-hosts)
+   - [Run Shell Command](#run-shell-command)
+   - [Copy File](#copy-file)
+   - [Install Package](#install-package)
+   - [Restart Service](#restart-service)
+   - [Remove File](#remove-file)
+   - [View Host Information](#view-host-information)
+   - [Run Script or Shell Command from File](#run-script-or-shell-command-from-file)
+   - [Update Packages](#update-packages)
+   - [Reboot Host](#reboot-host)
 
 ## Introduction
 
@@ -25,8 +55,6 @@ YAML-based Playbooks: Konfigurasi dan tugas didefinisikan dalam file YAML yang m
 Idempotent: Ansible Playbook secara alami idempoten, yang berarti Anda dapat menjalankannya berulang kali tanpa efek samping yang tidak diinginkan.
 
 Komunitas yang Besar: Ansible memiliki komunitas yang besar dan aktif, yang berarti Anda dapat menemukan banyak dukungan, modul, dan contoh untuk digunakan.
-
-Berikut adalah perbandingan antara Ansible, Chef, Puppet, dan SaltStack dalam format tabel Markdown:
 
 ## Other Tools Comparison
 
@@ -115,6 +143,28 @@ all:
         db2:
           ansible_host: 192.168.0.202
 ```
+<br>
+
+Contoh Inventory bentuk Folder:
+```bash
+inventory/
+    ├── group_vars/
+    │   └── group1.yml
+    ├── host_vars/
+    │   └── host1.yml
+    ├── production/
+    │   ├── hosts
+    │   ├── group_vars/
+    │   │   └── prod_group.yml
+    │   └── host_vars/
+    │       └── prod_host.yml
+    └── staging/
+        ├── hosts
+        ├── group_vars/
+        │   └── stage_group.yml
+        └── host_vars/
+            └── stage_host.yml
+```
 
 Ansible inventory adalah komponen penting dalam ekosistem Ansible yang memungkinkan pengguna untuk secara efisien mengelola dan mengotomatisasi infrastruktur mereka. Dengan inventory yang baik, pengguna dapat dengan mudah menyesuaikan konfigurasi dan tindakan Ansible mereka sesuai dengan kebutuhan mereka.
 
@@ -132,6 +182,46 @@ Selain menggunakan file statis, Ansible juga mendukung inventory yang dibuat sec
 
 ### Penggunaan Pattern Matching
 Ansible menyediakan pola pencocokan yang kuat untuk memilih host atau grup host dari inventory. Ini memungkinkan pengguna untuk menentukan target operasi Ansible dengan sangat fleksibel dan efisien.
+
+### Example
+```ini
+# Global variables
+ansible_user=admin
+ansible_ssh_private_key=~/.ssh/id_rsa
+
+# Group variables
+[group1:vars]
+group_variable1=value1
+group_variable2=value2
+
+# Host variables
+host1 ansible_host=192.168.1.10 ansible_connection=ssh ansible_user=user1
+host2 ansible_host=192.168.1.11 ansible_connection=ssh ansible_user=user2
+
+# Conditional variables
+[web_servers]
+host1 http_port=80
+host2 http_port=8080
+
+[web_servers:vars]
+http_port=8088
+
+[web_servers:children]
+web_servers_production
+
+[web_servers_production]
+host3 http_port=8081
+
+[web_servers_production:vars]
+http_port=8000
+
+# Environment-specific variables
+[production:vars]
+environment=prod
+
+[staging:vars]
+environment=staging
+```
 
 ## Config File
 
