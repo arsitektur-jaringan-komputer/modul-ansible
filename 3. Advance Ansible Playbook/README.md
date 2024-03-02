@@ -50,3 +50,51 @@ Ketika Anda menggunakan perintah ansible-galaxy init untuk membuat template role
 Dalam pengerjaannya, ansible akan mengeksekusi role dari urutan paling atas. Pada contoh gambar di bawah ini, ansible akan menjalankan update, lalu nginx, lalu mysql, dan terakhir adalah backend
 
 <img width="96" alt="Screenshot 2024-03-02 at 10 30 30" src="https://github.com/arsitektur-jaringan-komputer/modul-ansible/assets/110476969/ecc1ce0b-dd7a-463c-ae98-3c365a9ae773">
+
+
+## Ansible Vault
+
+Ansible Vault adalah fitur dalam Ansible yang digunakan untuk mengenkripsi data sensitif seperti kata sandi, kunci SSH, atau informasi rahasia lainnya dalam file Ansible playbooks atau variabel. Tujuan utamanya adalah untuk melindungi informasi rahasia ini agar tidak terbaca secara langsung oleh orang yang tidak berwenang.
+
+Berikut adalah poin penting mengenai ansible vault:
+
+1. Enkripsi Data Rahasia:
+
+Menggunakan Ansible Vault untuk mengamankan data sensitif dalam file Ansible.
+Menggunakan algoritma enkripsi yang kuat, seperti AES, untuk melindungi informasi dari akses yang tidak sah.
+
+2.Integrasi dengan Ansible Playbooks:
+
+Mengenkripsi variabel, file variabel, atau seluruh playbook Ansible.
+Memungkinkan penyimpanan kata sandi, kunci SSH, atau informasi rahasia lainnya dalam playbook tanpa risiko akses yang tidak sah.
+
+3. Kompatibilitas dengan Berbagai Algoritma Enkripsi:
+
+Ansible Vault mendukung berbagai algoritma enkripsi, termasuk AES dengan kunci 256-bit.
+Fleksibilitas dalam memilih tingkat keamanan sesuai dengan kebutuhan.
+
+4. Pengelolaan Kata Sandi:
+
+Memungkinkan pengelolaan kata sandi untuk proses enkripsi dan dekripsi.
+Mendukung penggunaan kata sandi tunggal atau kunci enkripsi SSH sebagai metode otentikasi.
+
+5. Perintah dan Utilitas:
+
+Ansible menyediakan perintah dan utilitas khusus untuk membuat, mengedit, mengenkripsi, dan mendekripsi file yang dienkripsi oleh Ansible Vault.
+Memudahkan pengelolaan dan interaksi dengan data yang dienkripsi.
+
+6. Deklaratif dan Terdokumentasi:
+
+Penggunaan Ansible Vault dideklarasikan dalam playbook Ansible.
+Memastikan penggunaan yang mudah dipahami dan didokumentasikan.
+
+7. Integrasi dengan Sumber Kontrol:
+
+File yang dienkripsi oleh Ansible Vault dapat dengan aman dimasukkan ke dalam repositori sumber kontrol seperti Git.
+Mendukung kolaborasi tim dalam proyek Ansible tanpa mengorbankan keamanan informasi rahasia.
+
+
+Untuk menjalankan ansible vault, dapat digunakan command berikut:
+```
+ansible-vault create vault.yml
+```
