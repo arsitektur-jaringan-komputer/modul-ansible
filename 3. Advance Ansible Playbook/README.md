@@ -256,14 +256,14 @@ Variabel ini dapat digunakan di task-task atau playbook yang menggunakan role in
 
 ### Perbedaan antara defaults dan vars
 <b> 1. Direktori defaults: </b>
-Digunakan untuk menyimpan variabel default yang akan digunakan oleh role jika tidak ada nilai variabel yang diberikan oleh pengguna.
-Variabel yang didefinisikan dalam direktori defaults dapat diubah oleh pengguna saat playbook dijalankan, baik melalui file playbook, group_vars, host_vars, atau secara langsung melalui parameter command-line.
-Variabel yang didefinisikan di dalam defaults/main.yml akan dianggap sebagai nilai default yang akan digunakan jika variabel tersebut tidak ditetapkan dengan nilai yang sesuai oleh pengguna saat menjalankan playbook.
+- Digunakan untuk menyimpan variabel default yang akan digunakan oleh role jika tidak ada nilai variabel yang diberikan oleh pengguna.
+- Variabel yang didefinisikan dalam direktori defaults dapat diubah oleh pengguna saat playbook dijalankan, baik melalui file playbook, group_vars, host_vars, atau secara langsung melalui parameter command-line.
+- Variabel yang didefinisikan di dalam defaults/main.yml akan dianggap sebagai nilai default yang akan digunakan jika variabel tersebut tidak ditetapkan dengan nilai yang sesuai oleh pengguna saat menjalankan playbook.
 
 <b> 2. Direktori vars: </b>
-Digunakan untuk menyimpan variabel yang spesifik untuk role dan tidak dianggap sebagai nilai default.
-Variabel yang didefinisikan dalam direktori vars tidak dapat diubah oleh pengguna saat playbook dijalankan.
-Variabel yang didefinisikan di dalam vars/main.yml akan dianggap sebagai nilai yang tetap dan tidak akan berubah selama playbook dijalankan, kecuali jika nilai tersebut ditimpa oleh variabel yang didefinisikan di dalam playbook atau file lain yang memiliki tingkat prioritas yang lebih tinggi.
+- Digunakan untuk menyimpan variabel yang spesifik untuk role dan tidak dianggap sebagai nilai default.
+- Variabel yang didefinisikan dalam direktori vars tidak dapat diubah oleh pengguna saat playbook dijalankan.
+- Variabel yang didefinisikan di dalam vars/main.yml akan dianggap sebagai nilai yang tetap dan tidak akan berubah selama playbook dijalankan, kecuali jika nilai tersebut ditimpa oleh variabel yang didefinisikan di dalam playbook atau file lain yang memiliki tingkat prioritas yang lebih tinggi.
 
 
 <br>
