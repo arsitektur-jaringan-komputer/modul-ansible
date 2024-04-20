@@ -243,16 +243,27 @@ nginx_user: www-data
 Variabel ini dapat digunakan di task-task atau playbook yang menggunakan role ini.
 
 ### Perbedaan antara files dan templates
-1. Direktori templates:
+<b> 1. Direktori templates: </b>
 - Digunakan untuk menyimpan file-file yang berpotensi menjadi template Jinja2.
 - File-file dalam direktori templates biasanya berupa file konfigurasi yang memerlukan pengubahan nilai-nilai variabel berdasarkan konteks atau kondisi tertentu.
 - File-file dalam direktori templates akan di-render oleh Ansible menggunakan mesin template Jinja2 sebelum disalin atau diaplikasikan ke host target.
 - Template Jinja2 memungkinkan untuk menambahkan logika atau pengubahan yang dinamis ke dalam file konfigurasi, seperti penggunaan variabel, perulangan, percabangan, dan lain-lain.
 
-2. Direktori files:
+<b> 2. Direktori files: </b>
 - Digunakan untuk menyimpan file-file statis yang akan disalin langsung ke host target tanpa perubahan atau pengubahan apapun.
 - File-file dalam direktori files tidak akan di-render atau dimodifikasi oleh Ansible sebelum disalin.
 - Biasanya, file-file dalam direktori files adalah file-binari, script, atau file-file konfigurasi yang tidak memerlukan pengubahan nilai-nilai variabel.
+
+### Perbedaan antara defaults dan vars
+<b> 1. Direktori defaults: </b>
+Digunakan untuk menyimpan variabel default yang akan digunakan oleh role jika tidak ada nilai variabel yang diberikan oleh pengguna.
+Variabel yang didefinisikan dalam direktori defaults dapat diubah oleh pengguna saat playbook dijalankan, baik melalui file playbook, group_vars, host_vars, atau secara langsung melalui parameter command-line.
+Variabel yang didefinisikan di dalam defaults/main.yml akan dianggap sebagai nilai default yang akan digunakan jika variabel tersebut tidak ditetapkan dengan nilai yang sesuai oleh pengguna saat menjalankan playbook.
+
+<b> 2. Direktori vars: </b>
+Digunakan untuk menyimpan variabel yang spesifik untuk role dan tidak dianggap sebagai nilai default.
+Variabel yang didefinisikan dalam direktori vars tidak dapat diubah oleh pengguna saat playbook dijalankan.
+Variabel yang didefinisikan di dalam vars/main.yml akan dianggap sebagai nilai yang tetap dan tidak akan berubah selama playbook dijalankan, kecuali jika nilai tersebut ditimpa oleh variabel yang didefinisikan di dalam playbook atau file lain yang memiliki tingkat prioritas yang lebih tinggi.
 
 
 <br>
