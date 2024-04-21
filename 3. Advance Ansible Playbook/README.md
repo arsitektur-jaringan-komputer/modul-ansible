@@ -279,10 +279,10 @@ Dalam pengerjaannya, ansible akan mengeksekusi role dari urutan paling atas. Pad
 
 Ansible Vault adalah fitur dalam Ansible yang digunakan untuk mengenkripsi data sensitif seperti kata sandi, kunci SSH, atau informasi rahasia lainnya dalam file Ansible playbooks atau variabel. Tujuan utamanya adalah untuk melindungi informasi rahasia ini agar tidak terbaca secara langsung oleh orang yang tidak berwenang.
 
-<br>
 
 ### Berikut adalah contoh penggunaan Ansible Vault:
 1. Membuat File Vault
+
 Untuk membuat file vault baru
 ```bash
 ansible-vault create secret.yml
@@ -290,6 +290,7 @@ ansible-vault create secret.yml
 Pada saat menjalankan command ini, kalian akan diminta untuk memasukkan kata sandi dan kemudian membuka file teks untuk diedit dengan menggunakan editor default.
 
 2. Mengedit File Vault
+
 Untuk mengedit file vault yang ada
 ```bash
 ansible-vault edit secret.yml
@@ -297,18 +298,21 @@ ansible-vault edit secret.yml
 Command ini akan meminta kata sandi yang telah kalian buat saat melakukan create Ansible Vault dan membuka file dalam editor untuk diedit.
 
 3. Mengenkripsi File Vault
+
 Untuk mengenkripsi file yang sudah ada
 ```bash
 ansible-vault encrypt secret.yml
 ```
 
 4. Dekripsi File Vault
+
 Untuk mendekripsi file vault
 ```bash
 ansible-vault decrypt secret.yml
 ```
 
 5. Menjalankan Playbook dengan Vault
+
 Saat menjalankan playbook, dapat menyertakan opsi --ask-vault-pass untuk meminta kata sandi vault
 ```bash
 ansible-playbook playbook.yml --ask-vault-pass
@@ -318,6 +322,7 @@ ansible-playbook playbook.yml --ask-vault-pass
 
 ### Contoh case penggunaan Ansible Vault:
 1. Persiapan Vault
+
 Buat file Ansible Vault untuk menyimpan kata sandi database.
 ```bash
 ansible-vault create secrets.yml
@@ -325,6 +330,7 @@ ansible-vault create secrets.yml
 Lalu, masukkan password yang akan digunakan dalam membuka Ansible Vault
 
 2. Isi Vault
+
 Dalam file `secrets.yml`, tambahkan entri untuk kata sandi database
 ```yaml
 database_password: your_database_password
@@ -332,6 +338,7 @@ database_password: your_database_password
 Simpan perubahan dan tutup file.
 
 3. Gunakan dalam Playbook
+
 Dalam playbook Ansible, dapat digunakan variabel dari Ansible Vault
 ```yaml
 - name: Konfigurasi Database
@@ -347,6 +354,7 @@ Dalam playbook Ansible, dapat digunakan variabel dari Ansible Vault
 Dalam contoh ini, `vaulted_database_password` adalah variabel yang mengambil nilai dari Ansible Vault.
 
 4. Menjalankan Playbook
+
 Ketika menjalankan playbook, Ansible akan meminta kata sandi vault
 ```bash
 ansible-playbook playbook.yml --ask-vault-pass
