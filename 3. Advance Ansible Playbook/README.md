@@ -11,7 +11,7 @@ Ansible role merupakan salah satu konsep utama dalam Ansible yang memungkinkan p
 
 
 Kita dapat melakukan generate template role dengan menggunakan command berikut
-```
+```bash
 ansible-galaxy init <my_role>
 ```
 Pada command di atas digunakan ansible galaxy yang merupakan pository berbagi berbagai role Ansible yang dapat digunakan oleh komunitas untuk mengelola konfigurasi.
@@ -34,7 +34,7 @@ Keterangan dari folder-folder tersebut adalah seperti berikut:
  Berisi variabel default untuk role.
  
  Berikut adalah contoh code `main.yml`, yang umumnya digunakan di dalam folder `defaults`:
- ```
+ ```yaml
  ---
 nginx_port: 80
 nginx_root: /var/www/html
@@ -43,12 +43,12 @@ nginx_root: /var/www/html
 
 <br>
 
-Berikut adalah cara mengakses variabel yang ada pada `main.yml` di dalam:
+Berikut adalah cara mengakses variabel yang ada pada `defaults/main.yml` di dalam:
 
 1. Playbook
 
 Pada playbook, kita harus mendefinisikan path dari defaults/main.yml, sehingga codenya akan terlihat seperti ini:
-```
+```yaml
 # playbook.yml
 
 - hosts: web_servers
@@ -71,7 +71,7 @@ Pada playbook, kita harus mendefinisikan path dari defaults/main.yml, sehingga c
 2. Task Lain Pada Role Sama
 
 Pada task lain dengan role yang sama, tidak perlu mendefinisikan path dari defaults/main.yml, sehingga codenya akan terlihat seperti berikut:
-```
+```yaml
 # roles/my_role/tasks/another_task.yml
 
 - name: Another task in the same role
@@ -84,7 +84,7 @@ Pada task lain dengan role yang sama, tidak perlu mendefinisikan path dari defau
 Tempat untuk menyimpan file yang akan di-copy ke target host.
 
 Berikut adalah contoh struktur di dalam dir `files`:
-```
+```bash
 # Contoh file konfigurasi nginx
 files/
 └── nginx.conf
@@ -94,20 +94,20 @@ Pada contoh di atas, files dapat digunakan sebagai tempat menyimpan konfigurasi 
 <br>
 
 Berikut adalah cara mengakses file yang ada di dalam files:
-```
+```yaml
 - name: Copy and template file from files/ directory
   template:
-    src: files/my_template.j2
+    src: files/nginx.conf
     dest: /path/to/destination/my_template.txt
 ```
-Dalam contoh ini, file `my_template.j2` dianggap sebagai template Jinja2 yang berada dalam direktori `files/`. Ansible akan merender template tersebut dan menyalin hasilnya ke `/path/to/destination/my_template.txt` pada target host.
+Dalam contoh ini, file `nginx.conf` yang berada dalam direktori `files/` akan dirender dan disalin hasilnya ke `/path/to/destination/my_template.txt` pada target host.
 
 
 #### 3. handlers
 Handler adalah tindakan yang akan dilakukan jika task sebelumnya menghasilkan perubahan.
 
 Berikut adalah contoh `main.yml` di dalam folder `handlers`:
-```
+```yaml
 ---
 - name: Restart nginx
   service:
@@ -118,8 +118,8 @@ Handler akan dijalankan jika ada task yang memodifikasi konfigurasi nginx, seper
 
 <br>
 
-Berikut adalah cara memanggil `handlers` pada `playbook` dengan menggunakan notify:
-```
+Berikut adalah cara memanggil `handlers` pada `playbook` dengan menggunakan `notify`:
+```yaml
 # playbook.yml
 
 - hosts: web_servers
@@ -137,7 +137,7 @@ Dalam contoh di atas, ketika tugas "Copy Nginx configuration file" dijalankan, i
 File meta/main.yml berisi metadata role seperti dependencies.
 
 Berikut adalah contoh `main.yml` di dalam folder `meta`:
-```
+```yaml
 ---
 dependencies:
   - role: common
@@ -147,7 +147,7 @@ Ini menunjukkan bahwa role ini memiliki dependensi terhadap role "common".
 <br>
 
 Contoh terdapat case seperti berikut:
-```
+```bash
 roles/
 ├── database
 │   ├── tasks
@@ -161,8 +161,8 @@ roles/
         └── main.yml
 ```
 
-Dengan di dalam adalah `roles/webserver/meta/main.yml` sebagai berikut:
-```
+Dengan di dalam `roles/webserver/meta/main.yml` sebagai berikut:
+```yaml
 ---
 dependencies:
   - role: database
@@ -174,7 +174,7 @@ Maka, role `webserver` memiliki dependensi terhadap role `database`, yang berart
 Berisi task-tasks yang akan dijalankan oleh role. 
 
 Berikut adalah contoh `main.yml` di dalam folder `tasks`:
-```
+```yaml
 ---
 - name: Install nginx
   apt:
@@ -193,7 +193,7 @@ Ini adalah contoh task yang menginstal nginx dan memastikan bahwa layanan nginx 
 Berisi template files yang akan di-render dan di-copy ke target host.
 
 Berikut adalah contoh struktur di dalam dir `templates`:
-```
+```bash
 # Contoh file template untuk konfigurasi nginx
 templates/
 └── nginx.conf.j2
@@ -204,7 +204,7 @@ Isi dari file template ini akan di-render sesuai dengan nilai variabel yang dibe
 Berisi file-file untuk melakukan testing terhadap role. 
 
 Berikut adalah contoh `test.yml` di dalam folder `tests`:
-```
+```yaml
 # roles/my_role/tests/test.yml
 
 - hosts: localhost
@@ -228,7 +228,7 @@ Berikut adalah contoh `test.yml` di dalam folder `tests`:
 ```
 
 Dan untuk testingnya dapat dijalankan dengan command berikut:
-```
+```bash
 ansible-playbook -i localhost, roles/my_role/tests/test.yml
 ```
 
@@ -236,7 +236,7 @@ ansible-playbook -i localhost, roles/my_role/tests/test.yml
 Berisi variabel-variabel tambahan yang digunakan oleh role.
 
 Berikut adalah contoh `main.yml` di dalam folder `vars`:
-```
+```yaml
 ---
 nginx_user: www-data
 ```
@@ -279,45 +279,75 @@ Dalam pengerjaannya, ansible akan mengeksekusi role dari urutan paling atas. Pad
 
 Ansible Vault adalah fitur dalam Ansible yang digunakan untuk mengenkripsi data sensitif seperti kata sandi, kunci SSH, atau informasi rahasia lainnya dalam file Ansible playbooks atau variabel. Tujuan utamanya adalah untuk melindungi informasi rahasia ini agar tidak terbaca secara langsung oleh orang yang tidak berwenang.
 
-Berikut adalah poin penting mengenai ansible vault:
+<br>
 
-1. Enkripsi Data Rahasia:
-
-Menggunakan Ansible Vault untuk mengamankan data sensitif dalam file Ansible.
-Menggunakan algoritma enkripsi yang kuat, seperti AES, untuk melindungi informasi dari akses yang tidak sah.
-
-2. Integrasi dengan Ansible Playbooks:
-
-Mengenkripsi variabel, file variabel, atau seluruh playbook Ansible.
-Memungkinkan penyimpanan kata sandi, kunci SSH, atau informasi rahasia lainnya dalam playbook tanpa risiko akses yang tidak sah.
-
-3. Kompatibilitas dengan Berbagai Algoritma Enkripsi:
-
-Ansible Vault mendukung berbagai algoritma enkripsi, termasuk AES dengan kunci 256-bit.
-Fleksibilitas dalam memilih tingkat keamanan sesuai dengan kebutuhan.
-
-4. Pengelolaan Kata Sandi:
-
-Memungkinkan pengelolaan kata sandi untuk proses enkripsi dan dekripsi.
-Mendukung penggunaan kata sandi tunggal atau kunci enkripsi SSH sebagai metode otentikasi.
-
-5. Perintah dan Utilitas:
-
-Ansible menyediakan perintah dan utilitas khusus untuk membuat, mengedit, mengenkripsi, dan mendekripsi file yang dienkripsi oleh Ansible Vault.
-Memudahkan pengelolaan dan interaksi dengan data yang dienkripsi.
-
-6. Deklaratif dan Terdokumentasi:
-
-Penggunaan Ansible Vault dideklarasikan dalam playbook Ansible.
-Memastikan penggunaan yang mudah dipahami dan didokumentasikan.
-
-7. Integrasi dengan Sumber Kontrol:
-
-File yang dienkripsi oleh Ansible Vault dapat dengan aman dimasukkan ke dalam repositori sumber kontrol seperti Git.
-Mendukung kolaborasi tim dalam proyek Ansible tanpa mengorbankan keamanan informasi rahasia.
-
-
-Untuk menjalankan ansible vault, dapat digunakan command berikut:
+### Berikut adalah contoh penggunaan Ansible Vault:
+1. Membuat File Vault
+Untuk membuat file vault baru
+```bash
+ansible-vault create secret.yml
 ```
-ansible-vault create vault.yml
+Pada saat menjalankan command ini, kalian akan diminta untuk memasukkan kata sandi dan kemudian membuka file teks untuk diedit dengan menggunakan editor default.
+
+2. Mengedit File Vault
+Untuk mengedit file vault yang ada
+```bash
+ansible-vault edit secret.yml
+```
+Command ini akan meminta kata sandi yang telah kalian buat saat melakukan create Ansible Vault dan membuka file dalam editor untuk diedit.
+
+3. Mengenkripsi File Vault
+Untuk mengenkripsi file yang sudah ada
+```bash
+ansible-vault encrypt secret.yml
+```
+
+4. Dekripsi File Vault
+Untuk mendekripsi file vault
+```bash
+ansible-vault decrypt secret.yml
+```
+
+5. Menjalankan Playbook dengan Vault
+Saat menjalankan playbook, dapat menyertakan opsi --ask-vault-pass untuk meminta kata sandi vault
+```bash
+ansible-playbook playbook.yml --ask-vault-pass
+```
+
+<br>
+
+### Contoh case penggunaan Ansible Vault:
+1. Persiapan Vault
+Buat file Ansible Vault untuk menyimpan kata sandi database.
+```bash
+ansible-vault create secrets.yml
+``` 
+Lalu, masukkan password yang akan digunakan dalam membuka Ansible Vault
+
+2. Isi Vault
+Dalam file `secrets.yml`, tambahkan entri untuk kata sandi database
+```yaml
+database_password: your_database_password
+```
+Simpan perubahan dan tutup file.
+
+3. Gunakan dalam Playbook
+Dalam playbook Ansible, dapat digunakan variabel dari Ansible Vault
+```yaml
+- name: Konfigurasi Database
+  hosts: database_servers
+  tasks:
+    - name: Set database password
+      mysql_user:
+        name: myuser
+        password: "{{ vaulted_database_password }}"
+  vars_files:
+    - secrets.yml
+```
+Dalam contoh ini, `vaulted_database_password` adalah variabel yang mengambil nilai dari Ansible Vault.
+
+4. Menjalankan Playbook
+Ketika menjalankan playbook, Ansible akan meminta kata sandi vault
+```bash
+ansible-playbook playbook.yml --ask-vault-pass
 ```
